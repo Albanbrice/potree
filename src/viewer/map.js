@@ -624,12 +624,16 @@ export class MapView{
 	}
 
 	addImages360(images){
-		let transform = this.toMap.forward;
+
+		// si le pointcloud est georef, permutter les lignes commentées
+		
+		// let transform = this.toMap.forward;
 		let layer = this.getImages360Layer();
 
 		for(let image of images.images){
 
-			let p = transform([image.position[0], image.position[1]]);
+			// let p = transform([image.position[0], image.position[1]]);
+			let p = [image.position[0], image.position[1]];
 
 			let feature = new ol.Feature({
 				'geometry': new ol.geom.Point(p),
@@ -695,18 +699,21 @@ export class MapView{
 			return;
 		}
 
-		let url = `${pointcloud.pcoGeometry.url}/../sources.json`;
+		// let url = `${pointcloud.pcoGeometry.url}/../sources.json`;
+		let url = `${pointcloud.pcoGeometry.url}/../metadata.json`;
 		//let response = await fetch(url);
 
 		fetch(url).then(async (response) => {
 			let data = await response.json();
 		
-			let sources = data.sources;
+			// let sources = data.sources;
 
-			for (let i = 0; i < sources.length; i++) {
-				let source = sources[i];
-				let name = source.name;
-				let bounds = source.bounds;
+			// for (let i = 0; i < sources.length; i++) {
+				// let source = sources[i];
+				// let name = source.name;
+				let name = data.name;
+				// let bounds = source.bounds;
+				let bounds = data.boundingBox;
 
 				let mapBounds = {
 					min: this.toMap.forward([bounds.min[0], bounds.min[1]]),
@@ -728,7 +735,7 @@ export class MapView{
 				let feature = new ol.Feature({
 					'geometry': new ol.geom.Polygon([[p1, p2, p3, p4, p1]])
 				});
-				feature.source = source;
+				// feature.source = source;
 				feature.pointcloud = pointcloud;
 				this.getSourcesLayer().getSource().addFeature(feature);
 
@@ -738,7 +745,7 @@ export class MapView{
 				});
 				feature.setStyle(this.createLabelStyle(name));
 				this.sourcesLabelLayer.getSource().addFeature(feature);
-			}
+			// }
 		}).catch(() => {
 			
 		});

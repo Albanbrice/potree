@@ -50,7 +50,7 @@ export class Images360 extends EventDispatcher{
 		this.sphere.scale.set(1000, 1000, 1000);
 		this.node.add(this.sphere);
 		this._visible = true;
-		// this.node.add(label);
+		// this.node.add(label)
 
 		this.focusedImage = null;
 
@@ -316,7 +316,7 @@ export class Images360Loader{
 
 			let mesh = new THREE.Mesh(sg, sm);
 			mesh.position.set(...xy, altitude);
-			mesh.scale.set(1, 1, 1);
+			mesh.scale.set(0.5,0.5, 0.5);
 			mesh.material.transparent = true;
 			mesh.material.opacity = 0.75;
 			mesh.image360 = image360;
